@@ -8,6 +8,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: examplepassword
+      MONGO_INITDB_DATABASE: pokemon_db  # Database initialization
     networks:
       - backend_network
 
@@ -17,7 +18,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      MONGO_URI: mongodb://root:examplepassword@mongodb:27017  # MongoDB connection string
+      MONGO_URI: mongodb://root:examplepassword@mongodb:27017/pokemon_db  # Correct MongoDB URI
     depends_on:
       - mongodb
     command: flask run --host=0.0.0.0 --port=5000
@@ -25,12 +26,12 @@ services:
       - backend_network
 
   pokemon_game:
-    build: ./pokemon_game  # You can replace this with the correct path to your Dockerfile
+    build: ./pokemon_game  # Replace with correct path to your Dockerfile
     container_name: pokemon_game
     ports:
-      - "8080:8080"  # Exposing the port for the game API
+      - "8080:8080"
     environment:
-      FLASK_API_URL: "http://flask_api:5000"  # Use Flask API's container name to access it
+      FLASK_API_URL: "http://flask_api:5000"  # Flask API URL based on Docker network
     depends_on:
       - flask_api
     networks:

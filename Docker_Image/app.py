@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 
 # Configure MongoDB connection (MongoDB running in a Docker container)
-app.config["MONGO_URI"] = "mongodb://mongodb:27017/pokemon_db"  # Change to the appropriate URI if needed
+app.config["MONGO_URI"] = "mongodb://mongodb:27017/pokemon_db"  # Connect to MongoDB via Docker container name
 mongo = PyMongo(app)
 
 @app.route("/api/pokemon", methods=["GET"])

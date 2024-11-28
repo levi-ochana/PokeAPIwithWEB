@@ -67,7 +67,7 @@ resource "aws_eip" "poke_backend_eip" {
   instance = aws_instance.backend_instance.id  # Attach the EIP to your EC2 instance
 }
 
-# If you want to ensure the Elastic IP is associated with the game instance as well
+# Allocate an Elastic IP for the game instance EC2 instance
 resource "aws_eip" "poke_game_eip" {
   instance = aws_instance.game_instance.id  # Attach the EIP to your game EC2 instance
 }

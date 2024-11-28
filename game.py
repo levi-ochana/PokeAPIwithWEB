@@ -3,7 +3,8 @@ import json
 import random
 
 # Define the Flask API URL (the backend URL)
-API_URL = "http://<backend-instance-public-ip>:5000/api/pokemon"  # Replace with your Flask server's public IP or Docker service name
+# Replace <backend-instance-public-ip> with the actual public IP address or Docker service name of the backend machine
+API_URL = "http://<backend-instance-public-ip>:5000/api/pokemon"  # API URL of Flask service
 
 # Main function to run the game
 def main():
