@@ -1,0 +1,42 @@
+# version: '3'
+# services:
+#   mongodb:
+#     image: mongo:latest  # MongoDB service using the latest image
+#     container_name: mongodb  # Name the container "mongodb"
+#     ports:
+#       - "27017:27017"  # Expose MongoDB on port 27017
+#     environment:
+#       MONGO_INITDB_ROOT_USERNAME: root  # Root username for MongoDB
+#       MONGO_INITDB_ROOT_PASSWORD: examplepassword  # Root password for MongoDB
+#       MONGO_INITDB_DATABASE: pokemon_db  # Initialize the database with the name "pokemon_db"
+#     networks:
+#       - backend_network  # Connect to the backend network
+
+#   pokeapi-flask:
+#     image: leviochana/my-flask-app:latest  # Use the image from Docker Hub
+#     container_name: pokeapi-flask  # Name the container "pokeapi-flask"
+#     ports:
+#       - "5000:5000"  # Expose Flask API on port 5000
+#     environment:
+#       MONGO_URI: mongodb://root:examplepassword@mongodb:27017/pokemon_db  # MongoDB URI for Flask to connect to
+#     depends_on:
+#       - mongodb  # Ensure MongoDB is started before Flask API
+#     command: flask run --host=0.0.0.0 --port=5000  # Run Flask API on all interfaces at port 5000
+#     networks:
+#       - backend_network  # Connect to the backend network
+
+#   pokemon_game:
+#     image: leviochana/my-flask-app:latest  # Use the image from Docker Hub
+#     container_name: pokemon_game  # Name the container "pokemon_game"
+#     ports:
+#       - "8080:8080"  # Expose Pokémon game on port 8080
+#     environment:
+#       FLASK_API_URL: "http://pokeapi-flask:5000"  # Set the Flask API URL for the game to communicate with
+#     depends_on:
+#       - pokeapi-flask  # Ensure Flask API is started before Pokémon game
+#     networks:
+#       - backend_network  # Connect to the backend network
+
+# networks:
+#   backend_network:
+#     driver: bridge  # Use the default bridge network for communication between services

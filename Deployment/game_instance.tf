@@ -10,14 +10,29 @@ resource "aws_instance" "game_instance" {
   }
 
 # User data script to set up the EC2 instance
-  user_data = <<-EOF
+user_data = <<-EOF
               #!/bin/bash
-              # Update system and install Docker
+              # Update system and install Git
               sudo yum update -y
+              sudo yum install -y git
+
+              # Install Docker
               sudo yum install -y docker
               sudo service docker start
               sudo usermod -a -G docker ec2-user  # Allow ec2-user to use Docker
-              sudo docker build -t pokemon-game .
-              docker run -d --name pokemon_game -p 8080:8080 <your_pokemon_game_image>
+
+              # Clone the PokeAPI game from GitHub
+              cd /home/ec2-user
+              git clone https://github.com/levi-ochana/PokeAPIwithWEB.git
+
+              # Navigate to the project directory
+              cd PokeAPIwithWEB
+
+              # Pull the Docker image from Docker Hub
+              sudo docker pull levi-ochana/my-flask-app:latest
+
+              # Run the Docker container
+              sudo docker run -d --name pokemon_game -p 8080:8080 levi-ochana/my-flask-app:latest
               EOF
+
 }
