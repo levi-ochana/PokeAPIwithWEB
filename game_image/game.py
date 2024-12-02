@@ -1,10 +1,7 @@
 import requests
 import json
 import random
-
-# Define the Flask API URL (the backend URL)
-# Replace <backend-instance-public-ip> with the actual public IP address or Docker service name of the backend machine
-API_URL = "http://<backend-instance-public-ip>:5000/api/pokemon"  # API URL of Flask service
+import subprocess
 
 # Main function to run the game
 def main():
@@ -52,6 +49,16 @@ def main():
             break
         else:
             print("Invalid choice, please enter 1, 2, or 3.")
+
+
+
+# Define the Flask API URL (the backend URL)
+def get_backend_ip():
+    result = subprocess.run(['terraform', 'output', 'backend_instance_ip'], stdout=subprocess.PIPE , cwd='../Deployment')
+    return result.stdout.decode('utf-8').strip()
+API_URL = f"http://{get_backend_ip()}:5000/api/pokemon" # API URL of Flask service
+
+
 
 # Function to check if Pokémon exists in the database
 def check_pokemon_in_db(pokemon_name):
